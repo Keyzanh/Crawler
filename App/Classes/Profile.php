@@ -40,11 +40,23 @@ class Profile extends Generic {
             return false;
         }
         
-        $this -> logInfo('Crawling informations...');
+        $urls = array();
+        $this -> logInfo('Getting URLs...');
         while(false !== ($url = $this -> crawler -> getNextUrlToCrawl())) {
-            $this -> logInfo("Crawling $url");
+            $urls[] = $url;
+            $this -> logInfo("\t$url");
+        }
+        $allUrlsCounter = count($urls);
+        $urls = array_unique($urls);
+        $urlsCounter = count($urls);
+        $this -> logInfo("$allUrlsCounter URLs found and $urlsCounter after clearing doublons");
+        
+        $cmpt = 0;
+        foreach($urls as $url) {
+            $cmpt++;
+            $this -> logInfo("Crawling informations from $url ($cmpt/$urlsCounter)");
             if(false === ($informations = $this -> crawler -> getInformationsFromUrl($url))) {
-                $this -> logWarning("Cannot load file from $url");
+                $this -> logWarning("Cannot load $url");
                 continue;
             }
             $this -> catalog -> add($informations);
