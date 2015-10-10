@@ -1,0 +1,6 @@
+; Here you simply set the profiles list. The syntax is very simple:
+;     profile_name = profile_dir
+; The profile_name is the one that will be used in the command line,
+; and the profile_dir is the directory name of the profile in
+; Profile directory.
+exemple = Exemple
