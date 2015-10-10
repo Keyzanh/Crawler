@@ -4,6 +4,7 @@ namespace App\Classes;
 
 use App\Classes\Generic;
 use App\Lib\NSpace;
+use App\Lib\Date;
 
 class Profile extends Generic {
 
@@ -35,6 +36,7 @@ class Profile extends Generic {
     
     public function extract() {
     
+        $timeBefore = Date::CurrentTimestamp();
         if(false === $this -> crawler -> beforeStart()) {
             $this -> logError("Error in crawler's initialization for profile ".$this -> profileName);
             return false;
@@ -66,6 +68,9 @@ class Profile extends Generic {
         $this -> logInfo('Saving catalog...');
         if(false === $this -> catalog -> save())
             $this -> logError('Cannot save catalog to '.$this -> conf['catalog']['save-to']);
+        $timeAfter = Date::CurrentTimestamp();
+        $elapsedTime = $timeAfter - $timeBefore;
+        $this -> logInfo('Operation took '.Date::TimestampToString($elapsedTime));
     
     }
     
