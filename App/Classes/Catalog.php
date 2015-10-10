@@ -35,7 +35,9 @@ class Catalog extends Generic {
     
         $array = $this -> beforeAdd($array);
         $array = $this -> applyFilters($array);
-        return $this -> driver -> addLine($array);
+        if(!$this -> driver -> addLine($array))
+            return false;
+        return $array;
     
     }
     

@@ -62,7 +62,7 @@ class Kernel {
     public static function Start() {
     
         $profile = self::LoadProfile(self::$argv[1]);
-        if(!$profile -> isReady())
+        if(!$profile || !$profile -> isReady())
             return false;
         $profile -> extract();
     

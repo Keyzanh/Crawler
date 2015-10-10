@@ -59,7 +59,7 @@ class Profile extends Generic {
                 $this -> logWarning("Cannot load $url");
                 continue;
             }
-            $this -> catalog -> add($informations);
+            $informations = $this -> catalog -> add($informations);
             $this -> logFormattedArrInfo($informations, "\t", 100);
         }
         
