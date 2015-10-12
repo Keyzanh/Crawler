@@ -21,25 +21,16 @@ class Profile extends Generic {
         
         $this -> profileName = $name;
         $this -> conf = $conf;
-        if(false === $this -> loadCrawler())
+        if(false === $this -> _loadCrawler())
             return;
-        if(false === $this -> loadCatalog())
+        if(false === $this -> _loadCatalog())
             return;
         if(false === $this -> crawler -> isReady())
             return;
         if(false === $this -> catalog -> isReady())
             return;
 
-        if(!empty($this -> conf['general']['log-file']))
-            if(!$this -> log -> addInfoOutput($this -> conf['general']['log-file'])) {
-                $this -> logError('Cannot write logs to '.$this -> conf['general']['log-file']);
-                die();
-            }
-        if(!empty($this -> conf['general']['log-error-file'])) {
-            $this -> log -> addWarningOutput($this -> conf['general']['log-error-file']);
-            $this -> log -> addWarningOutput($this -> conf['general']['log-error-file']);
-        }
-
+        $this -> _configureLog();        
         $this -> ready = true;
     
     }
@@ -86,7 +77,7 @@ class Profile extends Generic {
     
     public function isReady() {return $this -> ready;}
     
-    protected function loadCrawler() {
+    protected function _loadCrawler() {
     
         $conf = $this -> conf;
         if(empty($conf['crawler']['class'])) {
@@ -99,7 +90,7 @@ class Profile extends Generic {
     
     }
     
-    protected function loadCatalog() {
+    protected function _loadCatalog() {
     
         $conf = $this -> conf;
         if(empty($conf['catalog']['class'])) {
@@ -112,6 +103,16 @@ class Profile extends Generic {
     
     }
     
+    protected function _configureLog() {
+    
+        if(!empty($this -> conf['general']['log-file']))
+            $this -> log -> addInfoOutput($this -> conf['general']['log-file']);
+        if(!empty($this -> conf['general']['log-error-file'])) {
+            $this -> log -> addWarningOutput($this -> conf['general']['log-error-file']);
+            $this -> log -> addWarningOutput($this -> conf['general']['log-error-file']);
+        }
+    
+    }
     
 }
 
