@@ -30,6 +30,16 @@ class Profile extends Generic {
         if(false === $this -> catalog -> isReady())
             return;
 
+        if(!empty($this -> conf['general']['log-file']))
+            if(!$this -> log -> addInfoOutput($this -> conf['general']['log-file'])) {
+                $this -> logError('Cannot write logs to '.$this -> conf['general']['log-file']);
+                die();
+            }
+        if(!empty($this -> conf['general']['log-error-file'])) {
+            $this -> log -> addWarningOutput($this -> conf['general']['log-error-file']);
+            $this -> log -> addWarningOutput($this -> conf['general']['log-error-file']);
+        }
+
         $this -> ready = true;
     
     }

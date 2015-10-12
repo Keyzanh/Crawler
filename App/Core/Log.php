@@ -34,6 +34,18 @@ class Log {
     }
     
     /**
+     * Add a file to log into for the info channel
+     *
+     * @param string
+     * @return bool
+     */
+    public function addInfoOutput($file) {
+    
+        return $this -> _addOutput('info', $file);
+    
+    }
+    
+    /**
      * Log content to the warning channel
      *
      * @var mixed
@@ -45,6 +57,18 @@ class Log {
     }
     
     /**
+     * Add a file to log into for the warning channel
+     *
+     * @param string
+     * @return bool
+     */
+    public function addWarningOutput($file) {
+    
+        return $this -> _addOutput('warning', $file);
+    
+    }
+    
+    /**
      * Log content to the error channel
      *
      * @var mixed
@@ -52,6 +76,18 @@ class Log {
     public function error($content) {
     
         return $this -> _log('error', $content);
+    
+    }
+    
+    /**
+     * Add a file to log into for the error channel
+     *
+     * @param string
+     * @return bool
+     */
+    public function addErrorOutput($file) {
+    
+        return $this -> _addOutput('error', $file);
     
     }
     
@@ -71,6 +107,23 @@ class Log {
             $content .= "\n";
         foreach($this -> channels[$channel] as $fd)
             fwrite($fd, $content);
+        return true;
+    
+    }
+    
+    /**
+     * Add a file descriptor to the given channel. This allow
+     * to add a file in which logs will be stored.
+     *
+     * @param string
+     * @param string
+     * @return bool
+     */
+    protected function _addOutput($channel, $file) {
+    
+        if(false === ($fd = fopen($file, 'w')))
+            return false;
+        $this -> channels[$channel][] = $fd;
         return true;
     
     }
