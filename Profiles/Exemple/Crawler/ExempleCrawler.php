@@ -11,6 +11,7 @@ class ExempleCrawler extends Crawler {
     protected $informations = array(
         //'name' => 'getName'
     );
+    protected $context = array();
     
     public function getNextUrlToCrawl() {return false;}
 

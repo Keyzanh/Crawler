@@ -9,16 +9,19 @@ class Crawler extends Generic {
 
     protected $mainUrl;
     protected $informations = array();
+    protected $context = array();
     
     public function beforeStart() {return true;}
+    public function afterEnd() {return true;}
     public function getNextUrlToCrawl() {return false;}
+    public function setContext($context) {$this -> context = $context;}
     
     protected $profileName;
     protected $conf;
     protected $currentUrl;
     protected $ready = false;
     
-    public function __construct($name, $conf) {
+    public function __construct($name, $conf, $log = null) {
     
         parent::__construct();
         $this -> profileName = $name;
@@ -27,6 +30,8 @@ class Crawler extends Generic {
         if(empty($conf['informations']))
             return;
         $this -> conf['informations'] = explode(',', $conf['informations']);
+        
+        if($log) $this -> log = $log;
             
         $this -> ready = true;
     
@@ -38,7 +43,10 @@ class Crawler extends Generic {
     
         $html = new SimpleHtmlDom();
         $html -> load_file($url);
-        if(!$html -> original_size) return false;
+        if(!$html -> original_size) {
+            $this -> logError("Cannot load $url");
+            return false;
+        }
         $this -> currentUrl = $url;
         return $html;
     
@@ -62,6 +70,8 @@ class Crawler extends Generic {
         return $data;
     
     }
+    
+    public function getContext() {return $this -> context;}
 
 }
 

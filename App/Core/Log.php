@@ -9,6 +9,8 @@
 
 namespace App\Core;
 
+use App\Lib\Date;
+
 class Log {
 
     /**
@@ -105,6 +107,7 @@ class Log {
             $content = print_r($content, true);
         if(substr($content, -1) != "\n")
             $content .= "\n";
+        $content = '['.Date::TimestampToShortDateTime(Date::Now()).'] '.$content;
         foreach($this -> channels[$channel] as $fd)
             fwrite($fd, $content);
         return true;

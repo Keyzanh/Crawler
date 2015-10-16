@@ -4,13 +4,13 @@ namespace App\Lib;
 
 class Date {
 
-    public static function CurrentTimestamp() {
+    public static function Now() {
     
         return time();
     
     }
     
-    public static function CurrentMicroTimestamp() {
+    public static function MicroNow() {
     
         return microtime();
     
@@ -32,6 +32,12 @@ class Date {
         if($hours) $string = $hours.'h '.$string;
         
         return $string;
+    
+    }
+    
+    public static function TimestampToShortDateTime($time) {
+    
+        return date('d-M-Y:H:i:s', $time);
     
     }
 

@@ -9,17 +9,20 @@ class Catalog extends Generic {
     protected $filters = array();
 
     protected function beforeAdd($informations) {return $informations;}
+    public function restoreContext() {return null;}
 
     protected $conf;
     protected $ready = false;
     protected $driver;
     
-    public function __construct($name, $conf) {
+    public function __construct($name, $conf, $log = null) {
     
         parent::__construct();
         $this -> profileName = $name;
         $this -> conf = $conf;
         $this -> loadDriver();
+        
+        if($log) $this -> log = $log;
         
         if(empty($this -> conf['save-to'])) {
             $this -> logError('No destination to save the catalog specified for profile '.$this -> profileName);

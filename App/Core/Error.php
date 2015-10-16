@@ -32,7 +32,6 @@ class Error {
         Kernel::LogError("$file at line $line: $message");
         $backtrace = print_r(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), true);
         Kernel::LogError($backtrace);
-        die();
     
     }
 
